@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 dotenv.config();
 
 
@@ -38,6 +38,12 @@ async function run() {
         const petData = req.body;
         console.log(petData);
         const result = await petCollection.insertOne(petData);
+        res.send(result);
+    });
+
+    app.get('/pet/:id', async (req, res) => {
+        const id = req.params.id;
+        const result = await petCollection.findOne({ _id: new ObjectId(id) });
         res.send(result);
     });
 
