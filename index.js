@@ -28,6 +28,7 @@ async function run() {
 
     const db = client.db("petra");
     const petCollection = db.collection("pets");
+    const adoptedPetCollection = db.collection("adoption");
 
     app.get('/pet', async (req, res) => {
       const result = await petCollection.find().toArray();
@@ -61,6 +62,13 @@ async function run() {
         const result = await petCollection.deleteOne({ _id: new ObjectId(id) });
         res.json(result);
     });
+
+    app.post('/adoption', async (req, res) => {
+        const adoptionData = req.body;
+        const result = await adoptedPetCollection.insertOne(adoptionData);
+        
+        res.json(result);
+    }); 
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
