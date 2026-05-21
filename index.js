@@ -30,6 +30,11 @@ async function run() {
     const petCollection = db.collection("pets");
     const adoptedPetCollection = db.collection("adoption");
 
+    app.get("/featured", async (req, res) => {
+      const result = await petCollection.find().limit(4).toArray();
+      res.json(result);
+    });
+
     app.get('/pet', async (req, res) => {
       const result = await petCollection.find().toArray();
       res.send(result);
