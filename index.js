@@ -42,7 +42,16 @@ async function run() {
         res.send(result);
     });
 
-    app.get('/pet/:id', async (req, res) => {
+    app.get('/pet/:id', (req, res, next)=>{
+      const header = req.headers.authorization
+      if(header === "logged in"){
+        next()
+      } else {
+        res.status(401).json({message: "Unauthorized"})
+      }
+      
+
+    }, async (req, res) => {
         const id = req.params.id;
         const result = await petCollection.findOne({ _id: new ObjectId(id) });
         res.send(result);
