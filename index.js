@@ -42,13 +42,14 @@ async function run() {
         res.send(result);
     });
 
-    app.get('/pet/:id', (req, res, next) => {
-      const header = req.headers.authorization;
-      if (header === "logged in") {
-        next();
-      } else {       
-         res.status(401).json({ message: "Unauthorized" });
+    app.get('/pet/:id', (req, res, next)=>{
+      const header = req.headers.authorization
+      if(header === "logged in"){
+        next()
+      } else {
+        res.status(401).json({message: "Unauthorized"})
       }
+      
 
     }, async (req, res) => {
         const id = req.params.id;
